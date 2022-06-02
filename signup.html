@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>signup page</title>
+    <style>
+        form {
+            border: 2px solid black;
+            display: flex;
+            flex-direction: column;
+            text-align: center;
+            justify-content: center;
+            align-items: center;
+            width: 500px;
+            padding: 23px;
+            border-radius: 5px;
+        }
+
+        .input {
+            margin: 4px;
+        }
+    </style>
+</head>
+
+<body>
+    <form id="register1" class="input-rg">
+        <h1>Sign up</h1>
+        <input type="text" class="input" placeholder="Enter first name" required>
+        <input type="text" class="input" placeholder="Enter last name" required>
+        <input type="email" class="input" placeholder="Enter Email-id" required>
+        <input type="password" class="input" placeholder="Enter password" required>
+        <input type="password" class="input" placeholder="Confirm password" required>
+        <div class="checkbox">
+            <input type="checkbox" class=><span>I agree to all <a href="#">terms & conditions</a></span>
+        </div>
+        <button type="submit" class="submit">Register</button>
+    </form>
+</body>
+
+</html>
