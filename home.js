@@ -1,61 +1,63 @@
-var deletebtn = document.getElementById("delete");
 var btn = document.getElementById('btn');
-if (localStorage.getItem("localtitlarr") == null) {
-   var titlArr = []
-   var discArr = []
+var username=JSON.parse (localStorage.getItem("loginarr"))[0].name;
+console.log(username);
+if (localStorage.getItem(username) == null) {
+   var notesarr= [];
 }
 else {
-   var titlArr = JSON.parse(localStorage.getItem("localtitlarr"))
-   var discArr = JSON.parse(localStorage.getItem("localdiscarr"))
+   notesarr=JSON.parse(localStorage.getItem(username));
+   shownotes();
 }
 btn.addEventListener('click', function submit(e) {
    e.preventDefault();
-   console.log("add note");
-   var title = document.getElementById('titl').value;
-   titlArr.push(title);
-   var disc = document.getElementById('disc').value;
-   discArr.push(disc);
-   if (title === "" || disc === "") {
+   var title = document.getElementById('title').value;
+   var desc=document.getElementById('desc').value;
+   var note={
+      title: title,
+      desc:desc
+   }
+   notesarr.push(note);
+   if (title == '' || desc == '') {
       alert("please fill all field");
    }
    else {
-      localStorage.setItem("localtitlarr", JSON.stringify(titlArr));
-      localStorage.setItem("localdiscarr", JSON.stringify(discArr));
-      document.getElementById('titl').value = "";
-      document.getElementById('disc').value = "";
+      localStorage.setItem(username, JSON.stringify(notesarr));
+      alert("Notes saved successfully")
+      document.getElementById('title').value = "";
+      document.getElementById('desc').value = "";
    }
    shownotes();
-}
-);
+});
+
+var deletebtn = document.getElementById("delete");
 function shownotes() {
-   var localTitleArr = JSON.parse(localStorage.getItem("localtitlarr"));
-   var localDescArr = JSON.parse(localStorage.getItem("localdiscarr"));
+   var localnotesarr= JSON.parse(localStorage.getItem(username));
    var noteEle = '';
-   for (var i = 0; i < localTitleArr.length; i++) {
+   if(localnotesarr==null){
+      noteEle=`<h3>no notes found</h3>`;
+   }
+   else{
+   for (var i = 0; i < localnotesarr.length; i++) {
       noteEle += `<div class="noteDiv">
         <div class="titleDiv">
-        <h3>Title:</h3><p>${localTitleArr[i]}</p>
-        <h3>Description:</h3><p>${localDescArr[i]}</p>
+        <h3>Title:</h3><p>${localnotesarr[i]}</p>
+        <h3>Description:</h3><p>${localnotesarr[i]}</p>
         <button id=${i} onclick={deleteOne(this.id)}>Delete</button>
         </div>
         </div>`}
+      }
    var Div = document.getElementById('Div');
    Div.innerHTML = noteEle;
+
 }
 
 function deleteOne(id) {
-   console.log("delete", id)
-   if (localStorage.getItem("localtitlarr") == null) {
-      var titlArr = []
-      var discArr = []
-   }
-   else {
-      var titlArr = JSON.parse(localStorage.getItem("localtitlarr"))
-      var discArr = JSON.parse(localStorage.getItem("localdiscarr"))
-   }
-   titlArr.splice(id, 1);
-   discArr.splice(id, 1);
-   localStorage.setItem("localtitlarr", JSON.stringify(titlArr));
-   localStorage.setItem("localdiscarr", JSON.stringify(discArr))
+   var localnotesarr=JSON.parse(localStorage.getItem(username));
+   localnotesarr.splice(id,1);
    shownotes();
+   if(localnotesarr.length==0){
+      localStorage.removeItem(username);
+      notesarr=[];
+      Div.innerHTML=`<h4>You have cleared all notes please first...</h4>`
+   }
 }
